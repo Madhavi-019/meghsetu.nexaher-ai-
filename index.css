@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hide "Made in Bolt" text */
+[data-bolt-badge], 
+.bolt-badge, 
+*:contains("Made in Bolt"),
+[class="bolt"],
+[id="bolt"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Alternative approach - hide any fixed positioned element containing "bolt" text */
+div[style*="position: fixed"]:has-text("Made in Bolt"),
+div[style*="position: absolute"]:has-text("Made in Bolt") {
+  display: none !important;
