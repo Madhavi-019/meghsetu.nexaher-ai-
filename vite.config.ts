@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react' // or whatever framework you're using
 
 export default defineConfig({
   plugins: [react()],
-  base: '/your-repository-name/', // Replace with your actual GitHub repository name
+  base: '/', // Set to root for Netlify deployment
   build: {
     outDir: 'dist',
   },
