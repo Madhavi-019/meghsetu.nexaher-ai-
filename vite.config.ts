@@ -6,5 +6,6 @@ export default defineConfig({
   base: '/', // Set to root for Netlify deployment
   build: {
     outDir: 'dist',
+    chunkSizeWarningLimit: 4000,
   },
 })
