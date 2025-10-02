@@ -1,0 +1,11 @@
+ fastapi
+uvicorn[standard]
+python-multipart
+aiofiles
+requests
+# ML libs (may be large)
+torch
+torchvision
+torchgeo
+pillow
+//requirements 

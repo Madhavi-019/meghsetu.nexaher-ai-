@@ -1,3 +1,4 @@
+import AiPage from './components/ai_page';
 import React, { useState } from 'react';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Header from './components/Header';
@@ -5,6 +6,8 @@ import LandingPage from './components/LandingPage';
 import Calculator from './components/Calculator';
 import Resources from './components/Resources';
 import About from './components/About';
+
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -19,6 +22,8 @@ function App() {
         return <Resources />;
       case 'about':
         return <About />;
+          case 'ai':              
+      return <AiPage />; 
       default:
         return <LandingPage onNavigate={setCurrentPage} />;
     }

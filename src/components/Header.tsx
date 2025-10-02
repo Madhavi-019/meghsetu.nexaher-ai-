@@ -14,7 +14,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
     { key: 'home', label: 'Home' },
     { key: 'calculator', label: 'Calculator' },
     { key: 'resources', label: 'Resources' },
-    { key: 'about', label: 'About' }
+    { key: 'about', label: 'About' },
+    { key: 'ai', label: 'AI Classifier' }
   ];
 
   return (
