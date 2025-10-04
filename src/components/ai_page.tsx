@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { classifyImage } from "../ai_clients";
-
+import { Download } from 'lucide-react'; // Import the Download icon
 
 const AiPage = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -43,7 +43,21 @@ const AiPage = () => {
         <div className="mt-4 p-4 bg-gray-800 rounded">
           <p><strong>File:</strong> {result.filename}</p>
           <p><strong>Prediction:</strong> {result.prediction}</p>
-          <p><strong>Harvesting Suggestion:</strong> {result.harvesting_suggestion}</p>
+          <p><strong>Harvesting Suggestion:</strong> {result.harvesting_suggestion.suggestion}</p>
+
+          {/* --- This is the new part --- */}
+          {result.harvesting_suggestion.pdf && (
+            <a
+              href={`/pdf/${result.harvesting_suggestion.pdf}`}
+              download
+              className="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download Guide
+            </a>
+          )}
+          {/* --- End of new part --- */}
+
         </div>
       )}
     </div>

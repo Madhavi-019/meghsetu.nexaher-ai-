@@ -2,7 +2,8 @@ from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
-from ai_module.model import classify_image, map_label_to_harvesting  # import the mapping function
+##from ai_module.model import classify_image, map_label_to_harvesting  # import the mapping function
+from model import classify_image, map_label_to_harvesting
 
 app = FastAPI()
 
@@ -18,39 +19,35 @@ app.add_middleware(
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+# ai_module/app.py
+
 @app.post("/classify/")
 async def classify(file: UploadFile = File(...)):
     file_path = os.path.join(UPLOAD_DIR, file.filename)
-    
-    # Save uploaded file
+
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    
+
     try:
-        # 1️⃣ Call your model to get raw prediction
         result_label = classify_image(file_path)
 
-        # 2️⃣ Clean up the label (remove "Prediction:" and split)
         if isinstance(result_label, str):
-            cleaned_label = result_label.replace("Prediction:", "").strip()
-            cleaned_label = cleaned_label.split(",")[0].strip()  # take the first label
+            cleaned_label = result_label.replace("Prediction:", "").strip().split(",")[0].strip()
         else:
             cleaned_label = str(result_label)
 
-        # 3️⃣ Map the cleaned label to harvesting suggestion
-        harvesting_method = map_label_to_harvesting(cleaned_label)
-        
-        # 4️⃣ Return both in response
+        harvesting_info = map_label_to_harvesting(cleaned_label)
+
+        # This is the changed part: we now return 'harvesting_info'
         return {
             "filename": file.filename,
             "prediction": cleaned_label,
-            "harvesting_suggestion": harvesting_method
+            "harvesting_suggestion": harvesting_info
         }
-    
+
     except Exception as e:
         return {"error": str(e)}
-    
+
     finally:
-        # Delete file after processing
         if os.path.exists(file_path):
             os.remove(file_path)

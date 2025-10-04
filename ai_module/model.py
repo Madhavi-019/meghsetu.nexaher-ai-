@@ -5,15 +5,32 @@ import torch
 from torchvision import transforms
 from transformers import AutoFeatureExtractor, AutoModelForImageClassification
 
-def map_label_to_harvesting(label: str) -> str:
+# ai_module/model.py
+
+def map_label_to_harvesting(label: str):
     mapping = {
-        "harvester": "Farm pond or check dam (for open agricultural land)",
-        "reaper": "Farm pond or check dam (for open agricultural land)",
-        "patio": "Rooftop rainwater harvesting (best for buildings/terraces)",
-        "terrace": "Rooftop rainwater harvesting (best for buildings/terraces)",
-        # add more mappings if needed
+        "harvester": {
+            "suggestion": "Farm pond or check dam (for open agricultural land)",
+            "pdf": ".pdf"
+        },
+        "reaper": {
+            "suggestion": "Farm pond or check dam (for open agricultural land)",
+            "pdf": "Farm_Pond_or_Check_Dam.pdf"
+        },
+        "patio": {
+            "suggestion": "Rooftop rainwater harvesting (best for buildings/terraces)",
+            "pdf": "Rooftop_Rainwater_Harvesting.pdf"
+        },
+        "terrace": {
+            "suggestion": "Rooftop rainwater harvesting (best for buildings/terraces)",
+            "pdf": "Rooftop_Rainwater_Harvesting.pdf"
+        },
+        
     }
-    return mapping.get(label.lower(), "No harvesting method mapped for this label")
+    return mapping.get(label.lower(), {
+        "suggestion": "No harvesting method mapped for this label",
+        "pdf": None
+    })
 
 # Load a pre-trained model (replace with a satellite-specific model if available)
 MODEL_NAME = "google/vit-base-patch16-224"  # Vision Transformer as example
